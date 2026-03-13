@@ -11,10 +11,12 @@ interface FloatingTicket {
 }
 
 export default function CinematicHero() {
+  const [mounted, setMounted] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [floatingTickets, setFloatingTickets] = useState<FloatingTicket[]>([]);
 
   useEffect(() => {
+    setMounted(true);
     // Generate random positions only on the client after hydration
     const tickets = [...Array(6)].map(() => ({
       top: `${Math.random() * 100}%`,
@@ -31,7 +33,7 @@ export default function CinematicHero() {
     <section className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-background">
       {/* 3D Floating Elements Background */}
       <div className="absolute inset-0 z-0">
-        {floatingTickets.map((ticket, i) => (
+        {mounted && floatingTickets.map((ticket, i) => (
           <div
             key={i}
             className="absolute animate-float opacity-20 text-primary"
