@@ -6,12 +6,13 @@ import HorizontalGallery from '@/components/HorizontalGallery';
 import FeatureExplosion from '@/components/FeatureExplosion';
 import ParallaxEnvironment from '@/components/ParallaxEnvironment';
 import BookingTimeline from '@/components/BookingTimeline';
+import ConfettiSuccess from '@/components/ConfettiSuccess';
 import CustomCursor from '@/components/CustomCursor';
 import { Menu, Search, User } from 'lucide-react';
 
 export default function Home() {
   return (
-    <main className="relative">
+    <main className="relative bg-background">
       <CustomCursor />
       
       {/* Navigation */}
@@ -23,11 +24,11 @@ export default function Home() {
             </div>
             BLACK TICKER
           </a>
-          <div className="hidden md:flex gap-8 text-sm font-medium text-gray-400">
-            <a href="#" className="hover:text-primary transition-colors uppercase tracking-widest text-[10px]">Events</a>
-            <a href="#" className="hover:text-primary transition-colors uppercase tracking-widest text-[10px]">Venues</a>
-            <a href="#" className="hover:text-primary transition-colors uppercase tracking-widest text-[10px]">VIP</a>
-            <a href="#" className="hover:text-primary transition-colors uppercase tracking-widest text-[10px]">Support</a>
+          <div className="hidden lg:flex gap-10 text-[10px] font-black tracking-[0.3em] uppercase text-gray-500">
+            <a href="#" className="hover:text-primary transition-colors">Events</a>
+            <a href="#" className="hover:text-primary transition-colors">Venues</a>
+            <a href="#" className="hover:text-primary transition-colors">VIP Pass</a>
+            <a href="#" className="hover:text-primary transition-colors">Ecosystem</a>
           </div>
         </div>
         <div className="flex items-center gap-6 pointer-events-auto">
@@ -37,58 +38,60 @@ export default function Home() {
           <button className="text-gray-400 hover:text-white transition-colors">
             <User size={20} />
           </button>
-          <button className="w-10 h-10 flex items-center justify-center bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-colors">
+          <button className="w-12 h-12 flex items-center justify-center bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-colors">
             <Menu size={20} />
           </button>
         </div>
       </nav>
 
+      {/* Cinematic Scroll Flow */}
       <CinematicHero />
+      <HorizontalGallery />
       <EventGrid />
       <QRScanner />
-      <HorizontalGallery />
       <FeatureExplosion />
       <ParallaxEnvironment />
       <BookingTimeline />
+      <ConfettiSuccess />
 
       {/* Footer */}
-      <footer className="py-24 bg-background border-t border-white/5 px-4">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+      <footer className="py-32 bg-background border-t border-white/5 px-4">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16">
           <div className="col-span-1 md:col-span-2">
-            <h2 className="font-headline text-3xl font-bold mb-6 tracking-tighter">BLACK TICKER</h2>
-            <p className="text-gray-400 max-w-sm mb-8">
-              Redefining the standard of event access through cutting-edge technology and unparalleled user experience.
+            <h2 className="font-headline text-4xl font-bold mb-8 tracking-tighter">BLACK TICKER</h2>
+            <p className="text-gray-400 max-w-sm mb-10 leading-relaxed">
+              Redefining the standard of event access through cutting-edge technology and unparalleled cinematic user experiences.
             </p>
             <div className="flex gap-4">
                {['TW', 'IG', 'FB', 'YT'].map(social => (
-                 <a key={social} href="#" className="h-10 w-10 border border-white/10 rounded-lg flex items-center justify-center hover:bg-primary hover:border-primary transition-all font-bold text-xs">
+                 <a key={social} href="#" className="h-12 w-12 border border-white/10 rounded-xl flex items-center justify-center hover:bg-primary hover:border-primary transition-all font-bold text-xs">
                    {social}
                  </a>
                ))}
             </div>
           </div>
           <div>
-            <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-primary">Company</h4>
-            <ul className="space-y-4 text-gray-400 text-sm">
-              <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Press Kit</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+            <h4 className="font-bold mb-8 text-[10px] uppercase tracking-[0.3em] text-primary">Platform</h4>
+            <ul className="space-y-4 text-gray-500 text-sm font-medium">
+              <li><a href="#" className="hover:text-white transition-colors">Elite Events</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Partner Venues</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">VIP Concierge</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Security Tech</a></li>
             </ul>
           </div>
           <div>
-            <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-primary">Resources</h4>
-            <ul className="space-y-4 text-gray-400 text-sm">
-              <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Partner Program</a></li>
+            <h4 className="font-bold mb-8 text-[10px] uppercase tracking-[0.3em] text-primary">Company</h4>
+            <ul className="space-y-4 text-gray-500 text-sm font-medium">
+              <li><a href="#" className="hover:text-white transition-colors">Our Vision</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Media Kit</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Global Support</a></li>
             </ul>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto mt-24 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+        <div className="max-w-7xl mx-auto mt-32 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold tracking-[0.2em] text-gray-600 uppercase">
            <p>© 2024 BLACK TICKER TECHNOLOGY INC. ALL RIGHTS RESERVED.</p>
-           <p>DESIGNED FOR THE EXTRAORDINARY.</p>
+           <p>ENGINEERED FOR THE EXTRAORDINARY.</p>
         </div>
       </footer>
     </main>
