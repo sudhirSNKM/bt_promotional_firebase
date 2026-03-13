@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useRef, useEffect, useState } from 'react';
@@ -39,8 +38,6 @@ export default function HorizontalGallery() {
           style={{ transform: `translateX(${-scrollProgress * 70}%)` }}
         >
           {galleryItems.map((item, idx) => {
-            // Calculate scale based on how close the card is to the "center" of viewport
-            // This is a simplified version of the logic
             return (
               <div 
                 key={item.id}

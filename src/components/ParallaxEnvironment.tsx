@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useState } from 'react';
@@ -14,9 +13,6 @@ export default function ParallaxEnvironment() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Use section reference to calculate relative scroll if needed, 
-  // but for simplicity we'll use window.scrollY with modulo or thresholds
-  
   return (
     <section className="relative h-screen w-full overflow-hidden bg-black">
       {/* Layer 1: Distant Lights (Slowest) */}
