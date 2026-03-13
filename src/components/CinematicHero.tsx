@@ -4,26 +4,42 @@
 import React, { useEffect, useState } from 'react';
 import { Ticket } from 'lucide-react';
 
+interface FloatingTicket {
+  top: string;
+  left: string;
+  scale: number;
+}
+
 export default function CinematicHero() {
   const [loaded, setLoaded] = useState(false);
+  const [floatingTickets, setFloatingTickets] = useState<FloatingTicket[]>([]);
 
   useEffect(() => {
-    setTimeout(() => setLoaded(true), 100);
+    // Generate random positions only on the client after hydration
+    const tickets = [...Array(6)].map(() => ({
+      top: `${Math.random() * 100}%`,
+      left: `${Math.random() * 100}%`,
+      scale: 0.5 + Math.random(),
+    }));
+    setFloatingTickets(tickets);
+
+    const timer = setTimeout(() => setLoaded(true), 100);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
     <section className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-background">
       {/* 3D Floating Elements Background */}
       <div className="absolute inset-0 z-0">
-        {[...Array(6)].map((_, i) => (
+        {floatingTickets.map((ticket, i) => (
           <div
             key={i}
             className="absolute animate-float opacity-20 text-primary"
             style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
+              top: ticket.top,
+              left: ticket.left,
               animationDelay: `${i * 0.5}s`,
-              transform: `scale(${0.5 + Math.random()})`,
+              transform: `scale(${ticket.scale})`,
             }}
           >
             <Ticket size={120} strokeWidth={1} />
