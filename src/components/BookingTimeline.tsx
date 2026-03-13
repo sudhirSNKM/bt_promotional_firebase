@@ -21,69 +21,75 @@ export default function BookingTimeline() {
       const rect = sectionRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
       
-      // Start counting progress only when the section top reaches the viewport top
-      if (rect.top > 0) {
-        setActiveIndex(0);
-        return;
-      }
+      if (rect.top > viewportHeight) return;
 
-      // Calculate progress based on how much of the section has been scrolled past
-      // The scrollable range is the total section height minus the viewport height
-      const scrollRange = rect.height - viewportHeight;
-      const scrolled = Math.abs(rect.top);
-      const progress = Math.min(Math.max(scrolled / scrollRange, 0), 1);
+      const totalHeight = rect.height;
+      const scrolled = Math.max(0, -rect.top);
+      const progress = Math.min(Math.max(scrolled / (totalHeight - viewportHeight), 0), 1);
       
       const index = Math.floor(progress * steps.length);
       setActiveIndex(Math.min(index, steps.length - 1));
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial check
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative bg-background overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-24 items-start">
-        {/* Sticky Left Content */}
-        <div className="sticky top-0 h-screen flex flex-col justify-center">
-          <div className="mb-12">
-            <h2 className="font-headline text-6xl font-bold mb-8">HOW IT <br /><span className="text-primary">WORKS</span></h2>
-            <p className="text-gray-400 text-lg max-w-sm">We've reimagined the booking experience from the ground up to be as cinematic as the events themselves.</p>
-          </div>
-          
-          <div className="space-y-12">
-            {steps.map((step, i) => {
-              const Icon = step.icon;
-              const isActive = i <= activeIndex;
-              return (
-                <div key={step.id} className={`flex gap-6 transition-all duration-500 ${isActive ? 'opacity-100 translate-x-4' : 'opacity-30'}`}>
-                  <div className={`p-4 rounded-xl border ${isActive ? 'bg-primary border-primary text-white neon-glow' : 'bg-white/5 border-white/10 text-gray-400'}`}>
-                    <Icon size={24} />
-                  </div>
-                  <div>
-                    <h3 className="font-headline text-2xl font-bold mb-2">{step.title}</h3>
-                    <p className="text-gray-400 text-sm max-w-sm">{step.desc}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Scrollable Right Visuals */}
-        <div className="hidden lg:flex flex-col gap-32 py-[40vh]">
-          {steps.map((step, i) => (
-            <div key={i} className={`h-[500px] w-full rounded-3xl border border-white/10 glass flex flex-col items-center justify-center transition-all duration-1000 ${i === activeIndex ? 'scale-100 opacity-100 neon-glow border-primary/50' : 'scale-90 opacity-20'}`}>
-               <span className="text-8xl font-black text-white/5 mb-4">0{i + 1}</span>
-               <step.icon size={80} className={`transition-colors duration-1000 ${i === activeIndex ? 'text-primary' : 'text-white/10'}`} />
+    <section ref={sectionRef} className="relative bg-background overflow-hidden h-[300vh]">
+      <div className="sticky top-0 h-screen flex items-center overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 w-full grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+          {/* Left Content */}
+          <div className="flex flex-col justify-center">
+            <div className="mb-16">
+              <p className="text-primary text-[10px] font-bold tracking-[0.5em] mb-4 uppercase">The Journey</p>
+              <h2 className="font-headline text-6xl md:text-8xl font-bold mb-8 leading-none tracking-tighter">
+                HOW IT <br /><span className="text-primary">WORKS</span>
+              </h2>
             </div>
-          ))}
+            
+            <div className="relative space-y-12">
+              {/* Vertical Progress Line */}
+              <div className="absolute left-8 top-0 bottom-0 w-[1px] bg-white/5" />
+              <div 
+                className="absolute left-8 top-0 w-[2px] bg-primary transition-all duration-700" 
+                style={{ height: `${(activeIndex / (steps.length - 1)) * 100}%` }}
+              />
+
+              {steps.map((step, i) => {
+                const Icon = step.icon;
+                const isActive = i <= activeIndex;
+                const isCurrent = i === activeIndex;
+                return (
+                  <div key={step.id} className={`flex gap-10 transition-all duration-700 ${isActive ? 'opacity-100 translate-x-4' : 'opacity-20'}`}>
+                    <div className={`relative z-10 w-16 h-16 rounded-2xl border flex items-center justify-center transition-all duration-500 ${isCurrent ? 'bg-primary border-primary text-white neon-glow scale-110' : 'bg-white/5 border-white/10 text-gray-500'}`}>
+                      <Icon size={28} />
+                    </div>
+                    <div className="flex flex-col justify-center">
+                      <h3 className={`font-headline text-3xl font-bold mb-2 transition-colors duration-500 ${isCurrent ? 'text-white' : 'text-gray-600'}`}>{step.title}</h3>
+                      <p className="text-gray-500 text-sm max-w-sm leading-relaxed">{step.desc}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Right Visuals */}
+          <div className="hidden lg:flex flex-col items-center justify-center perspective-2000">
+            {steps.map((step, i) => (
+              <div 
+                key={i} 
+                className={`absolute w-[450px] h-[300px] rounded-[3rem] border border-white/10 glass flex flex-col items-center justify-center transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] ${i === activeIndex ? 'scale-100 opacity-100 translate-z-0 neon-glow border-primary/40' : i < activeIndex ? 'scale-90 opacity-0 -translate-y-full -rotate-x-12' : 'scale-90 opacity-0 translate-y-full rotate-x-12'}`}
+              >
+                 <span className="text-[12rem] font-black text-white/[0.02] absolute inset-0 flex items-center justify-center pointer-events-none">0{i + 1}</span>
+                 <step.icon size={100} className={`relative z-10 transition-colors duration-1000 ${i === activeIndex ? 'text-primary' : 'text-white/10'}`} strokeWidth={1} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-      
-      {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 -skew-x-12 transform translate-x-1/2 pointer-events-none" />
     </section>
   );
 }

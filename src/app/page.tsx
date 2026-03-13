@@ -8,7 +8,7 @@ import ParallaxEnvironment from '@/components/ParallaxEnvironment';
 import BookingTimeline from '@/components/BookingTimeline';
 import ConfettiSuccess from '@/components/ConfettiSuccess';
 import CustomCursor from '@/components/CustomCursor';
-import { Menu, Search, User } from 'lucide-react';
+import { Menu, Search, User, Mail, Instagram, Twitter } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -54,42 +54,37 @@ export default function Home() {
       <BookingTimeline />
       <ConfettiSuccess />
 
-      {/* Footer */}
-      <footer className="py-32 bg-background border-t border-white/5 px-4">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16">
-          <div className="col-span-1 md:col-span-2">
-            <h2 className="font-headline text-4xl font-bold mb-8 tracking-tighter">BLACK TICKER</h2>
-            <p className="text-gray-400 max-w-sm mb-10 leading-relaxed">
-              Redefining the standard of event access through cutting-edge technology and unparalleled cinematic user experiences.
-            </p>
-            <div className="flex gap-4">
-               {['TW', 'IG', 'FB', 'YT'].map(social => (
-                 <a key={social} href="#" className="h-12 w-12 border border-white/10 rounded-xl flex items-center justify-center hover:bg-primary hover:border-primary transition-all font-bold text-xs">
-                   {social}
-                 </a>
-               ))}
+      {/* Spotlight Contact Section */}
+      <section className="relative py-48 bg-black overflow-hidden flex flex-col items-center justify-center">
+        <div className="absolute inset-0 bg-radial-at-c from-primary/10 via-transparent to-transparent opacity-50" />
+        <div className="relative z-10 text-center">
+          <div className="mb-12 animate-float">
+            <div className="h-24 w-24 bg-primary rounded-3xl flex items-center justify-center mx-auto neon-glow">
+              <span className="text-black font-black text-3xl">BT</span>
             </div>
           </div>
-          <div>
-            <h4 className="font-bold mb-8 text-[10px] uppercase tracking-[0.3em] text-primary">Platform</h4>
-            <ul className="space-y-4 text-gray-500 text-sm font-medium">
-              <li><a href="#" className="hover:text-white transition-colors">Elite Events</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Partner Venues</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">VIP Concierge</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Security Tech</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-bold mb-8 text-[10px] uppercase tracking-[0.3em] text-primary">Company</h4>
-            <ul className="space-y-4 text-gray-500 text-sm font-medium">
-              <li><a href="#" className="hover:text-white transition-colors">Our Vision</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Media Kit</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Global Support</a></li>
-            </ul>
+          <h2 className="font-headline text-6xl font-bold mb-16 tracking-tighter">CONTACT US</h2>
+          <div className="flex flex-col md:flex-row gap-12 items-center justify-center">
+            {[
+              { icon: Mail, label: 'Email', value: 'hello@blackticker.com' },
+              { icon: Instagram, label: 'Instagram', value: '@blackticker' },
+              { icon: Twitter, label: 'Twitter', value: '@blackticker_hq' }
+            ].map((social, i) => (
+              <a key={i} href="#" className="group flex flex-col items-center gap-4 p-8 border border-white/5 rounded-2xl glass hover:border-primary/50 transition-all">
+                <social.icon size={32} className="text-gray-500 group-hover:text-primary transition-colors" />
+                <span className="text-[10px] uppercase tracking-[0.3em] text-gray-600 group-hover:text-white">{social.label}</span>
+                <span className="text-lg font-medium">{social.value}</span>
+              </a>
+            ))}
           </div>
         </div>
-        <div className="max-w-7xl mx-auto mt-32 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold tracking-[0.2em] text-gray-600 uppercase">
+        {/* Spotlight Effect */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 blur-[150px] rounded-full pointer-events-none" />
+      </section>
+
+      {/* Footer */}
+      <footer className="py-24 bg-black border-t border-white/5 px-4">
+        <div className="max-w-7xl mx-auto mt-10 pt-10 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold tracking-[0.2em] text-gray-600 uppercase">
            <p>© 2024 BLACK TICKER TECHNOLOGY INC. ALL RIGHTS RESERVED.</p>
            <p>ENGINEERED FOR THE EXTRAORDINARY.</p>
         </div>

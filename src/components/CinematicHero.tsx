@@ -18,13 +18,12 @@ export default function CinematicHero() {
   const [floatingTickets, setFloatingTickets] = useState<FloatingTicket[]>([]);
 
   useEffect(() => {
-    // Generate random positions only on the client to avoid hydration mismatch
-    const tickets = [...Array(8)].map((_, i) => ({
+    const tickets = [...Array(12)].map((_, i) => ({
       top: `${Math.random() * 100}%`,
       left: `${Math.random() * 100}%`,
-      scale: 0.6 + Math.random() * 0.8,
+      scale: 0.5 + Math.random() * 1.2,
       rotation: Math.random() * 360,
-      delay: `${i * 0.7}s`,
+      delay: `${i * 0.4}s`,
     }));
     setFloatingTickets(tickets);
     setMounted(true);
@@ -35,28 +34,29 @@ export default function CinematicHero() {
   }, []);
 
   return (
-    <section className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-background">
-      {/* 3D Floating Elements Background */}
+    <section className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-background perspective-2000">
+      {/* 3D Ticket Universe */}
       <div 
-        className="absolute inset-0 z-0 perspective-1000"
+        className="absolute inset-0 z-0 pointer-events-none"
         style={{ 
-          transform: `translateZ(${scrollY * -0.5}px)`,
-          opacity: Math.max(0, 1 - scrollY / 800)
+          transform: `translateZ(${scrollY * -0.8}px)`,
+          opacity: Math.max(0, 1 - scrollY / 1000)
         }}
       >
         {mounted && floatingTickets.map((ticket, i) => (
           <div
             key={i}
-            className="absolute animate-float opacity-30 text-primary transition-transform duration-1000 ease-out"
+            className="absolute animate-float text-primary transition-all duration-1000 ease-out"
             style={{
               top: ticket.top,
               left: ticket.left,
               animationDelay: ticket.delay,
-              transform: `scale(${ticket.scale}) rotate(${ticket.rotation + (scrollY * 0.1)}deg) translateZ(${i * 20}px)`,
-              filter: 'drop-shadow(0 0 10px rgba(255, 0, 0, 0.4))',
+              transform: `scale(${ticket.scale}) rotate(${ticket.rotation + (scrollY * 0.05)}deg) translateZ(${i * 50}px)`,
+              filter: `drop-shadow(0 0 15px rgba(255, 0, 0, ${0.2 + (i * 0.05)}))`,
+              opacity: 0.1 + (i * 0.05)
             }}
           >
-            <Ticket size={140} strokeWidth={0.5} />
+            <Ticket size={200} strokeWidth={0.2} />
           </div>
         ))}
       </div>
@@ -67,7 +67,7 @@ export default function CinematicHero() {
           className="transition-all duration-1000 ease-out"
           style={{ 
             opacity: mounted ? 1 : 0, 
-            transform: mounted ? `translateY(${scrollY * 0.2}px)` : 'translateY(40px)' 
+            transform: mounted ? `translateY(${scrollY * 0.1}px)` : 'translateY(40px)' 
           }}
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-[10px] font-bold tracking-[0.2em] mb-8 uppercase">
@@ -75,29 +75,29 @@ export default function CinematicHero() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
-            Live Ticketing Revolution
+            Infinite Ticketing Universe
           </div>
-          <h1 className="font-headline text-7xl md:text-[10rem] font-bold tracking-tighter mb-6 bg-gradient-to-b from-white to-gray-800 bg-clip-text text-transparent leading-none">
+          <h1 className="font-headline text-7xl md:text-[12rem] font-bold tracking-tighter mb-6 bg-gradient-to-b from-white to-gray-800 bg-clip-text text-transparent leading-none drop-shadow-[0_0_30px_rgba(255,0,0,0.2)]">
             BLACK <br className="md:hidden" /> TICKER
           </h1>
           <p className="font-body text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 tracking-wide">
-            The world's most sophisticated event platform. <br className="hidden md:block" />
-            Designed for the extraordinary.
+            Enter a new dimension of event access. <br className="hidden md:block" />
+            Designed for the extraordinary elite.
           </p>
           <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-            <button className="interactive group relative px-10 py-5 bg-primary text-white rounded-lg overflow-hidden transition-all hover:neon-glow active:scale-95">
-              <span className="relative z-10 font-bold tracking-widest text-xs">EXPLORE EVENTS</span>
+            <button className="interactive group relative px-12 py-6 bg-primary text-white rounded-xl overflow-hidden transition-all hover:neon-glow active:scale-95">
+              <span className="relative z-10 font-bold tracking-[0.2em] text-xs">EXPLORE UNIVERSE</span>
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
             </button>
-            <button className="interactive px-10 py-5 border border-white/10 hover:bg-white/5 rounded-lg transition-colors font-bold tracking-widest text-xs text-gray-300">
-              BOOK NOW
+            <button className="interactive px-12 py-6 border border-white/10 hover:bg-white/5 rounded-xl transition-colors font-bold tracking-[0.2em] text-xs text-gray-300">
+              JOIN ECOSYSTEM
             </button>
           </div>
         </div>
       </div>
 
-      {/* Ticket Mask Reveal (Bottom) */}
-      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-background via-background/80 to-transparent z-20" />
+      {/* Background Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-radial-at-c from-primary/5 to-transparent pointer-events-none z-0" />
     </section>
   );
 }
