@@ -4,10 +4,30 @@
 import React, { useEffect, useState } from 'react';
 import { Sparkles, Ticket, CheckCircle2 } from 'lucide-react';
 
+interface Particle {
+  top: string;
+  left: string;
+  bgColor: string;
+  delay: string;
+  duration: string;
+}
+
 export default function ConfettiSuccess() {
   const [active, setActive] = useState(false);
+  const [particles, setParticles] = useState<Particle[]>([]);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    const newParticles = [...Array(50)].map((_, i) => ({
+      top: `${Math.random() * 100}%`,
+      left: `${Math.random() * 100}%`,
+      bgColor: i % 2 === 0 ? '#ff0000' : '#ffffff',
+      delay: `${Math.random() * 2}s`,
+      duration: `${2 + Math.random() * 3}s`
+    }));
+    setParticles(newParticles);
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -27,17 +47,17 @@ export default function ConfettiSuccess() {
     <section id="success-section" className="py-48 bg-background relative overflow-hidden flex flex-col items-center justify-center">
       {/* Confetti Particles (CSS based) */}
       <div className={`absolute inset-0 pointer-events-none ${active ? 'opacity-100' : 'opacity-0'}`}>
-        {[...Array(50)].map((_, i) => (
+        {mounted && particles.map((p, i) => (
           <div
             key={i}
             className="absolute w-2 h-2 rounded-full animate-bounce"
             style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              backgroundColor: i % 2 === 0 ? '#ff0000' : '#ffffff',
+              top: p.top,
+              left: p.left,
+              backgroundColor: p.bgColor,
               opacity: 0.3,
-              animationDelay: `${Math.random() * 2}s`,
-              animationDuration: `${2 + Math.random() * 3}s`
+              animationDelay: p.delay,
+              animationDuration: p.duration
             }}
           />
         ))}
