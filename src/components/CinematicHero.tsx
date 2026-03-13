@@ -18,6 +18,7 @@ export default function CinematicHero() {
   const [floatingTickets, setFloatingTickets] = useState<FloatingTicket[]>([]);
 
   useEffect(() => {
+    // Generate random positions only on the client to avoid hydration mismatch
     const tickets = [...Array(8)].map((_, i) => ({
       top: `${Math.random() * 100}%`,
       left: `${Math.random() * 100}%`,

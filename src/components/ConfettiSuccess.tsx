@@ -18,7 +18,7 @@ export default function ConfettiSuccess() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    // Generate random values only on client to avoid hydration mismatch
     const newParticles = [...Array(50)].map((_, i) => ({
       top: `${Math.random() * 100}%`,
       left: `${Math.random() * 100}%`,
@@ -27,6 +27,7 @@ export default function ConfettiSuccess() {
       duration: `${2 + Math.random() * 3}s`
     }));
     setParticles(newParticles);
+    setMounted(true);
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -45,7 +46,7 @@ export default function ConfettiSuccess() {
 
   return (
     <section id="success-section" className="py-48 bg-background relative overflow-hidden flex flex-col items-center justify-center">
-      {/* Confetti Particles (CSS based) */}
+      {/* Confetti Particles (CSS based) - Only render on client after particles are ready */}
       <div className={`absolute inset-0 pointer-events-none ${active ? 'opacity-100' : 'opacity-0'}`}>
         {mounted && particles.map((p, i) => (
           <div
