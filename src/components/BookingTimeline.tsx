@@ -19,21 +19,38 @@ export default function BookingTimeline() {
     const handleScroll = () => {
       if (!sectionRef.current) return;
       const rect = sectionRef.current.getBoundingClientRect();
-      const stepHeight = rect.height / steps.length;
-      const current = Math.floor(Math.abs(rect.top) / stepHeight);
-      setActiveIndex(Math.min(Math.max(current, 0), steps.length - 1));
+      const viewportHeight = window.innerHeight;
+      
+      // Start counting progress only when the section top reaches the viewport top
+      if (rect.top > 0) {
+        setActiveIndex(0);
+        return;
+      }
+
+      // Calculate progress based on how much of the section has been scrolled past
+      // The scrollable range is the total section height minus the viewport height
+      const scrollRange = rect.height - viewportHeight;
+      const scrolled = Math.abs(rect.top);
+      const progress = Math.min(Math.max(scrolled / scrollRange, 0), 1);
+      
+      const index = Math.floor(progress * steps.length);
+      setActiveIndex(Math.min(index, steps.length - 1));
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial check
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-32 bg-background relative overflow-hidden">
+    <section ref={sectionRef} className="relative bg-background overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-24 items-start">
-        <div className="sticky top-32">
-          <h2 className="font-headline text-6xl font-bold mb-8">HOW IT <br /><span className="text-primary">WORKS</span></h2>
-          <p className="text-gray-400 text-lg mb-12">We've reimagined the booking experience from the ground up to be as cinematic as the events themselves.</p>
+        {/* Sticky Left Content */}
+        <div className="sticky top-0 h-screen flex flex-col justify-center">
+          <div className="mb-12">
+            <h2 className="font-headline text-6xl font-bold mb-8">HOW IT <br /><span className="text-primary">WORKS</span></h2>
+            <p className="text-gray-400 text-lg max-w-sm">We've reimagined the booking experience from the ground up to be as cinematic as the events themselves.</p>
+          </div>
           
           <div className="space-y-12">
             {steps.map((step, i) => {
@@ -54,10 +71,12 @@ export default function BookingTimeline() {
           </div>
         </div>
 
-        <div className="hidden lg:flex flex-col gap-32 py-32">
+        {/* Scrollable Right Visuals */}
+        <div className="hidden lg:flex flex-col gap-32 py-[40vh]">
           {steps.map((step, i) => (
-            <div key={i} className={`h-[500px] w-full rounded-3xl border border-white/10 glass flex items-center justify-center text-8xl font-black text-white/5 transition-all duration-1000 ${i === activeIndex ? 'scale-100 opacity-100 neon-glow border-primary/50' : 'scale-90 opacity-20'}`}>
-               0{i + 1}
+            <div key={i} className={`h-[500px] w-full rounded-3xl border border-white/10 glass flex flex-col items-center justify-center transition-all duration-1000 ${i === activeIndex ? 'scale-100 opacity-100 neon-glow border-primary/50' : 'scale-90 opacity-20'}`}>
+               <span className="text-8xl font-black text-white/5 mb-4">0{i + 1}</span>
+               <step.icon size={80} className={`transition-colors duration-1000 ${i === activeIndex ? 'text-primary' : 'text-white/10'}`} />
             </div>
           ))}
         </div>
