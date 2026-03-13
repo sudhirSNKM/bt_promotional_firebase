@@ -1,5 +1,3 @@
 # bt_promotional_firebase
 
-This is a NextJS starter in Firebase Studio.
-
-To get started, take a look at src/app/page.tsx.
+This is a NextJS starter in Firebase Studio for Black Ticker, a cinematic event ticketing platform.

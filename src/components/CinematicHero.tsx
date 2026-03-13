@@ -16,7 +16,6 @@ export default function CinematicHero() {
   const [floatingTickets, setFloatingTickets] = useState<FloatingTicket[]>([]);
 
   useEffect(() => {
-    setMounted(true);
     // Generate random positions only on the client after hydration
     const tickets = [...Array(6)].map(() => ({
       top: `${Math.random() * 100}%`,
@@ -24,6 +23,7 @@ export default function CinematicHero() {
       scale: 0.5 + Math.random(),
     }));
     setFloatingTickets(tickets);
+    setMounted(true);
 
     const timer = setTimeout(() => setLoaded(true), 100);
     return () => clearTimeout(timer);
